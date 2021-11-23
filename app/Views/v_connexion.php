@@ -12,7 +12,7 @@
 				<input id="login" type="text" name="login"  size="30" maxlength="45"/>
 			</p>
 			<p>
-				<label for="nom">Mot de passe*</label>
+				<label for="mdp">Mot de passe*</label>
 				<input id="mdp"  type="password"  name="mdp" size="30" maxlength="45"/>
 			</p>
 			<p>

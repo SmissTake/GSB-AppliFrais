@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="<?= base_url('css/styles.css') ?>" />
 
-		<script language="JavaScript">
+		<script>
 			function hideNotify() {
 				document.getElementById("notify").style.display = "none";
 			}
@@ -37,7 +37,6 @@
 					<li class="smenu">
 						<?= anchor('visiteur/mesFiches', 'Mes fiches de frais', 'title="Consultation de mes fiches de frais"') ?>
 					</li>
-					<br/>
 					<li class="smenu">
 						<?= anchor('visiteur/seDeconnecter', 'Se déconnecter', 'title="Déconnexion"') ?>
 					</li>
