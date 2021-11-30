@@ -4,6 +4,13 @@ use CodeIgniter\Model;
 use \DateTime;
 use \DateInterval;
 
+/**
+ * Class Tools
+ * 
+ * Modèle comportant plusieurs fonctions outils, tel que vérification ou formatage de date.
+ * 
+ */
+
 class Tools extends Model {
 
 	/**

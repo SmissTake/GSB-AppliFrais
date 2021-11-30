@@ -3,6 +3,13 @@
 use CodeIgniter\Model;
 use \App\Models\DataAccess;
 
+/**
+ * Class Authentif
+ *
+ * Modèle comportant les fonctions utiles a la verification d'authentification ainsi que la création et la déstruction de variable de session.
+ * Extend this class in any new controllers:
+ * 
+ */
 class Authentif extends Model
 {
 	private $session;
@@ -58,6 +65,8 @@ class Authentif extends Model
 	/**
 	 * Vérifie en base de données si les informations de connexions sont correctes
 	 * 
+	 * @param $login
+	 * @param $mdp
 	 * @return : renvoie l'id, le nom et le prenom de l'utilisateur dans un tableau s'il est reconnu, sinon un tableau vide.
 	 */
 	public function authentifier ($login, $mdp) 

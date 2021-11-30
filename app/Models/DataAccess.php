@@ -4,7 +4,9 @@ use CodeIgniter\Model;
 use \App\Models\Tools;
 
 /**
- * Modèle qui implémente les fonctions d'accès aux données 
+ * Class DataAccess
+ * 
+ * Modèle qui implémente les fonctions d'accès aux données
 */
 class DataAccess extends Model {
 // TODO : Transformer toutes les requêtes en requêtes paramétrées
@@ -290,7 +292,8 @@ class DataAccess extends Model {
 	/**
 	 * Obtient toutes les fiches (sans détail) d'un visiteur donné 
 	 * 
-	 * @param $idVisiteur 
+	 * @param $idVisiteur
+	 * @return un tableau avec les fiches de frais
 	*/
 	public function getFiches ($idVisiteur) {
 		$req = "select idVisiteur, mois, montantValide, dateModif, id, libelle

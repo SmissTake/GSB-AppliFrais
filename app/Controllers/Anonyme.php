@@ -3,8 +3,14 @@
 use CodeIgniter\Controller;
 use \App\Models\Authentif;
 
+/**
+ * Class Anonyme
+ * 
+ * Se charge de coordonner l'authentification utilisateur.
+ */
 class Anonyme extends BaseController
 {
+
 	public function index()
 	{
 		$authentif = new Authentif();
@@ -22,6 +28,10 @@ class Anonyme extends BaseController
 	/**
 	 * Traite le retour du formulaire de connexion afin de connecter l'utilisateur
 	 * s'il est reconnu
+	 * 
+	 * @return la vue de connexion avec un message d'erreur
+	 * ou
+	 * @return la page d'accueil.
 	*/
 	public function seConnecter () 
 	{	// TODO : conrôler que l'obtention des données postées ne rend pas d'erreurs 
