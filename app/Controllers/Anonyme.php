@@ -15,7 +15,12 @@ class Anonyme extends BaseController
 		}
 		else
 		{
-			return redirect()->to(site_url('visiteur'));
+			if($_SESSION['profil'] == 1){
+				return redirect()->to(site_url('visiteur'));
+			}
+			elseif($_SESSION['profil'] == 2){
+				return redirect()->to(site_url('comptable'));
+			}
 		}
 	}
 
@@ -39,7 +44,7 @@ class Anonyme extends BaseController
 		}
 		else
 		{
-			$authentif->connecter($authUser['id'], $authUser['nom'], $authUser['prenom']);
+			$authentif->connecter($authUser['id'], $authUser['nom'], $authUser['prenom'], $authUser['profil']);
 			return $this->index();
 		}
 	}
