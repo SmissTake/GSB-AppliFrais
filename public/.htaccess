@@ -1,6 +1,10 @@
 # Disable directory browsing
 Options All +Indexes
 
+SetEnv CI_ENVIRONMENT development
+
+Header set Access-Control-Allow-Origin *
+
 # ----------------------------------------------------------------------
 # Rewrite engine
 # ----------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 use CodeIgniter\Controller;
 use \App\Models\Authentif;
-use \App\Models\ActionsVisiteur;
+use \App\Models\ActionsComptable;
 
 /**
  * Contrôleur du module VISITEUR de l'application
@@ -10,8 +10,8 @@ use \App\Models\ActionsVisiteur;
 class Comptable extends BaseController {
 
    private $authentif;
-   private $actVisiteur;
-   private $idVisiteur;
+   private $actComptable;
+   private $idComptable;
    
    private function checkAuth()
    {
@@ -26,10 +26,10 @@ class Comptable extends BaseController {
 		}
 		else 
 		{
-			$this->actVisiteur = new ActionsVisiteur();
+			$this->actComptable = new ActionsComptable();
 			$this->session = session();
-			$this->idVisiteur = $this->session->get('idUser');
-			$this->actVisiteur->checkLastSix($this->idVisiteur);
+			$this->idComptable = $this->session->get('idUser');
+			//$this->actComptable->checkLastSix($this->idVisiteur);
 			$res = true;
 		}
 		return $res;
@@ -61,92 +61,44 @@ class Comptable extends BaseController {
 		return $this->authentif->deconnecter();
 	}
 
-/*
-	public function  mesFiches($message = "")
+		/**
+	 * Récupere les informations du visiteur ainsi que ses fiches.
+	 * 
+	 * @param $message
+	 * @return la vue MesFiches du visiteur.
+	 */
+	public function  lesFiches($message = "")
 	{
 		if (!$this->checkAuth()) return $this->unauthorizedAccess();
 		$data['identite'] = $this->session->get('prenom').' '.$this->session->get('nom');
-		$data['mesFiches'] = $this->actVisiteur->getLesFichesDuVisiteur($this->idVisiteur);
+		$data['lesFiches'] = $this->actComptable->getFiches();
 		$data['notify'] = $message;
 
-		return view('v_visiteurMesFiches', $data);	
+		return view('v_comptableLesFiches', $data);	
 	}
-
-	public function voirMaFiche($mois)
-	{	// TODO : contrôler la validité du paramètre (mois de la fiche à consulter)
-	
+	public function miseEnPaiementFiche($idVisiteur, $mois){
 		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		$data['identite'] = $this->session->get('prenom').' '.$this->session->get('nom');
-		$data['mois'] = $mois;
-		$data['fiche'] = $this->actVisiteur->getUneFiche($this->idVisiteur, $mois);
-		
-		return view('v_visiteurVoirFiche', $data);
-	}
-
-
-	public function modMaFiche($mois, $message = "")
-	{	// TODO : contrôler la validité du second paramètre (mois de la fiche à modifier)
-	
-		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		$data['identite'] = $this->session->get('prenom').' '.$this->session->get('nom');
-		$data['notify'] = $message;
-		$data['mois'] = $mois;
-		$data['fiche'] = $this->actVisiteur->getUneFiche($this->idVisiteur, $mois);
-		
-		return view('v_visiteurModFiche', $data);
-	}
-
-	public function signeMaFiche($mois)
-	{	// TODO : contrôler la validité du second paramètre (mois de la fiche à modifier)
-
-		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		$this->actVisiteur->signeFiche($this->idVisiteur, $mois);
+		$this->actComptable->miseEnPaiementFiche($idVisiteur, $mois);
 
 		// ... et on revient à mesFiches
-		return $this->mesFiches("La fiche $mois a été signée. <br/>Pensez à envoyer vos justificatifs afin qu'elle soit traitée par le service comptable rapidement.");
-	}
+		return $this->lesFiches("La fiche $mois a été mise en paiement.");
 
-	public function majForfait($mois)
-	{	// TODO : conrôler que l'obtention des données postées ne rend pas d'erreurs
-		// TODO : dans la dynamique de l'application, contrôler que l'on vient bien de modFiche
-		
+	}
+	public function validerFiche($idVisiteur, $mois){
 		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		// obtention des données postées
-		$lesFrais = $this->request->getPost('lesFrais');
+		$this->actComptable->validerFiche($idVisiteur, $mois);
 
-		$this->actVisiteur->majForfait($this->idVisiteur, $mois, $lesFrais);
+		// ... et on revient à mesFiches
+		return $this->lesFiches("La fiche $mois a été validée.");
 
-		// ... et on revient en modification de la fiche
-		return $this->modMaFiche($mois, 'Modification(s) des éléments forfaitisés enregistrée(s) ...');
 	}
-	
-	public function ajouteUneLigneDeFrais($mois)
-	{	// TODO : conrôler que l'obtention des données postées ne rend pas d'erreurs
-		// TODO : dans la dynamique de l'application, contrôler que l'on vient bien de modFiche
-		
+	public function refuserFiche($idVisiteur, $mois){
 		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		// obtention des données postées
-		$uneLigne = array( 
-			'dateFrais' => $this->request->getPost('dateFrais'),
-			'libelle' => $this->request->getPost('libelle'),
-			'montant' => $this->request->getPost('montant')
-		);
-		$this->actVisiteur->ajouteFrais($this->idVisiteur, $mois, $uneLigne);
+		$this->actComptable->refuserFiche($idVisiteur, $mois);
 
-		// ... et on revient en modification de la fiche
-		return $this->modMaFiche($mois, 'Ligne "Hors forfait" ajoutée ...');				
-	}
-	
-	public function supprUneLigneDeFrais($mois, $idLigneFrais)
-	{	// TODO : contrôler la validité du second paramètre (mois de la fiche à modifier)
-		// TODO : dans la dynamique de l'application, contrôler que l'on vient bien de modFiche
-	
-		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		// l'id de la ligne à supprimer doit avoir été transmis en second paramètre
-		$this->actVisiteur->supprFrais($this->idVisiteur, $mois, $idLigneFrais);
+		// ... et on revient à mesFiches
+		return $this->lesFiches("La fiche $mois a été refusée.");
 
-		// ... et on revient en modification de la fiche
-		return $this->modMaFiche($mois, 'Ligne "Hors forfait" supprimée ...');				
 	}
-    */
+
 }

@@ -32,10 +32,10 @@
 				
 				<ul id="menuList">
 					<li class="smenu">
-						<?= anchor('visiteur/', 'Accueil', 'title="Page d\'accueil"') ?>
+						<?= anchor('comptable/', 'Accueil', 'title="Page d\'accueil"') ?>
 					</li>
 					<li class="smenu">
-						<?= anchor('visiteur/mesFiches', 'Mes fiches de frais', 'title="Consultation de mes fiches de frais"') ?>
+						<?= anchor('comptable/lesFiches', 'Suivre les fiches de frais', 'title="Suivre les fiches de frais"') ?>
 					</li>
 					<li class="smenu">
 						<?= anchor('visiteur/seDeconnecter', 'Se déconnecter', 'title="Déconnexion"') ?>

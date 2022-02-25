@@ -197,8 +197,50 @@ class DataAccess extends Model {
 	public function signeFiche($idVisiteur,$mois){
 		// met à 'CL' son champs idEtat
 		$laFiche = $this->getLesInfosFicheFrais($idVisiteur,$mois);
-		if($laFiche['idEtat']=='CR'){
+		if($laFiche['idEtat']=='CR' || $laFiche['idEtat'] == 'RE'){
 				$this->majEtatFicheFrais($idVisiteur, $mois,'CL');
+		}
+	}
+	/**
+	 * Met en paiement une fiche de frais en modifiant son état de "VA" à "MP"
+	 * Ne fait rien si l'état initial n'est pas "VA"
+	 * 
+	 * @param $idVisiteur 
+	 * @param $mois sous la forme aaaamm
+	*/
+	public function miseEnPaiementFiche($idVisiteur, $mois){
+		// met à 'CL' son champs idEtat
+		$laFiche = $this->getLesInfosFicheFrais($idVisiteur,$mois);
+		if($laFiche['idEtat']=='VA'){
+				$this->majEtatFicheFrais($idVisiteur, $mois,'MP');
+		}
+	}
+	/**
+	 * Signe une fiche de frais en modifiant son état de "CL" à "VA"
+	 * Ne fait rien si l'état initial n'est pas "CL"
+	 * 
+	 * @param $idVisiteur 
+	 * @param $mois sous la forme aaaamm
+	*/
+	public function validerFiche($idVisiteur, $mois){
+		// met à 'VA' son champs idEtat
+		$laFiche = $this->getLesInfosFicheFrais($idVisiteur,$mois);
+		if($laFiche['idEtat']=='CL'){
+				$this->majEtatFicheFrais($idVisiteur, $mois,'VA');
+		}
+	}
+			/**
+	 * Signe une fiche de frais en modifiant son état de "CL" à "RE"
+	 * Ne fait rien si l'état initial n'est pas "CL"
+	 * 
+	 * @param $idVisiteur 
+	 * @param $mois sous la forme aaaamm
+	*/
+	public function refuserFiche($idVisiteur, $mois){
+		// met à 'RE' son champs idEtat
+		$laFiche = $this->getLesInfosFicheFrais($idVisiteur,$mois);
+		if($laFiche['idEtat']=='CL'){
+				$this->majEtatFicheFrais($idVisiteur, $mois,'RE');
 		}
 	}
 
@@ -289,6 +331,7 @@ class DataAccess extends Model {
 		$this->db->simpleQuery($req);
 	}
 	
+	
 	/**
 	 * Obtient toutes les fiches (sans détail) d'un visiteur donné 
 	 * 
@@ -304,6 +347,22 @@ class DataAccess extends Model {
 		$lesFiches = $rs->getResultArray();
 		return $lesFiches;
 	}
+	
+		/**
+	 * Obtient toutes signées les fiches (sans détail) 
+	 * 
+	 * @return un tableau avec les fiches de frais
+	*/
+	public function getLesFiches() {
+		$req = "select idVisiteur, nom, prenom, mois, montantValide, dateModif, Etat.id, libelle
+		from  fichefrais inner join Etat on ficheFrais.idEtat = Etat.id inner join visiteur on fichefrais.idVisiteur = visiteur.id
+		where idEtat like  'CL' or idEtat like 'VA'
+		order by mois desc";
+		$rs = $this->db->query($req);
+		$lesFiches = $rs->getResultArray();
+		return $lesFiches;
+	}
+	
 	
 	/**
 	 * Calcule le montant total de la fiche pour un visiteur et un mois donnés

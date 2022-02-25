@@ -46,7 +46,7 @@
 			<th >&nbsp;</th>              
 		</tr>
           
-		<?php    
+		<?php
 			foreach($fiche['lesFraisHorsForfait'] as $unFraisHorsForfait) 
 			{
 				$date = $unFraisHorsForfait['date'];

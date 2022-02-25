@@ -39,7 +39,7 @@ class Tools extends Model {
 	}
 	
 	/**
-	 * retourne le mois d'une date au format aaaamm 
+	 * Retourne le mois d'une date au format aaaamm 
 	 
 	 * @param $date au format  jj/mm/aaaa
 	 * @return : le mois au format aaaamm
@@ -54,7 +54,7 @@ class Tools extends Model {
 	}
 
 	/**
-	 * retourne, sous la forme d'un tableau, les 6 derniers mois 
+	 * Retourne, sous la forme d'un tableau, les 6 derniers mois 
 	 * à partir d'aujourd'hui au format aaaamm, y compris le mois courant
 	 * A noter: compte-tenu du fonctionnement de la méthode DateTime::sub,
 	 * il peut arriver que l'on retrouve 2 fois le même mois parmi
