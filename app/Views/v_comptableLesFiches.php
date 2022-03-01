@@ -28,7 +28,8 @@
 
 				if ($uneFiche['id'] == 'CL') {
 					$link = anchor('comptable/validerFiche/'.$uneFiche['idVisiteur'].'/'.$uneFiche['mois'], 'Valider',  'title="Valider la fiche" onclick="return confirm(\'Voulez-vous vraiment valider cette fiche ?\');"');
-					$reLink = anchor('comptable/refuserFiche/'.$uneFiche['idVisiteur'].'/'.$uneFiche['mois'], 'Refuser',  'title="Refuser la fiche"  onclick="return confirm(\'Confirmer le refus de la fiche ?\', prompt(\'Motif du refus ?\',));"');
+					$reLink = anchor('','Refuser',  'title="Refuser la fiche"  onclick=""');
+					//$reLink = "<a onclick=\"confirmPrompt('.$uneFiche['idVisiteur'].','.$uneFiche['mois'].')\">";
 				}elseif($uneFiche['id'] == 'VA'){
 					$link = anchor('comptable/miseEnPaiementFiche/'.$uneFiche['idVisiteur'].'/'.$uneFiche['mois'], 'Mettre en paiement',  'title="Mettre en paiement la fiche" onclick="return confirm(\'Voulez-vous vraiment mettre en paiement cette fiche ?\');"');
 				}
@@ -46,6 +47,21 @@
 			}
 		?>	  
 		</tbody>
+		<script type="text/javascript">
+			// function confirmPrompt(idVisiteur, mois){
+			// 	var message = prompt('Motif du refus ?',);
+
+			// 	if(message != null){
+			// 		if(confirm('Confirmer le refus ? Motif : ' + message)){
+			// 			window.location.href = 'comptable/refuserFiche/' + idVisiteur + '/' + mois;
+			// 		}
+					
+			// 	}
+			// 	else{
+			// 		alert('Aucun message saisi');
+			// 	}
+			// }
+		</script>
     </table>
 
 </div>
