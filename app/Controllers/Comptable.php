@@ -92,9 +92,9 @@ class Comptable extends BaseController {
 		return $this->lesFiches("La fiche $mois a été validée.");
 
 	}
-	public function refuserFiche($idVisiteur, $mois){
+	public function refuserFiche($idVisiteur, $mois, $commentaire){
 		if (!$this->checkAuth()) return $this->unauthorizedAccess();
-		$this->actComptable->refuserFiche($idVisiteur, $mois);
+		$this->actComptable->refuserFiche($idVisiteur, $mois, $commentaire);
 
 		// ... et on revient à mesFiches
 		return $this->lesFiches("La fiche $mois a été refusée.");

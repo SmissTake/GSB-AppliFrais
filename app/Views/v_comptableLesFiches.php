@@ -25,13 +25,15 @@
 				$link = '';
 				$reLink = '';
 				$mpLink = '';
+				$idVisiteur = $uneFiche['idVisiteur'];
+				$mois = $uneFiche['mois'];
 
 				if ($uneFiche['id'] == 'CL') {
-					$link = anchor('comptable/validerFiche/'.$uneFiche['idVisiteur'].'/'.$uneFiche['mois'], 'Valider',  'title="Valider la fiche" onclick="return confirm(\'Voulez-vous vraiment valider cette fiche ?\');"');
-					$reLink = anchor('','Refuser',  'title="Refuser la fiche"  onclick=""');
-					//$reLink = "<a onclick=\"confirmPrompt('.$uneFiche['idVisiteur'].','.$uneFiche['mois'].')\">";
+					$link = anchor('comptable/validerFiche/'.$idVisiteur.'/'.$mois, 'Valider',  'title="Valider la fiche" onclick="return confirm(\'Voulez-vous vraiment valider cette fiche ?\');"');
+					$reLink = "<a onclick=\"confirmPrompt('$idVisiteur','$mois')\">Refuser</a>";
+					//$reLink = "<a onclick=\"confirmPrompt('b13','202109');\">Refuser</a>";
 				}elseif($uneFiche['id'] == 'VA'){
-					$link = anchor('comptable/miseEnPaiementFiche/'.$uneFiche['idVisiteur'].'/'.$uneFiche['mois'], 'Mettre en paiement',  'title="Mettre en paiement la fiche" onclick="return confirm(\'Voulez-vous vraiment mettre en paiement cette fiche ?\');"');
+					$link = anchor('comptable/miseEnPaiementFiche/'.$idVisiteur.'/'.$mois, 'Mettre en paiement',  'title="Mettre en paiement la fiche" onclick="return confirm(\'Voulez-vous vraiment mettre en paiement cette fiche ?\');"');
 				}
 
 				echo 
@@ -48,19 +50,19 @@
 		?>	  
 		</tbody>
 		<script type="text/javascript">
-			// function confirmPrompt(idVisiteur, mois){
-			// 	var message = prompt('Motif du refus ?',);
+			 function confirmPrompt(idVisiteur, mois){
+				var commentaire = prompt('Motif du refus ?',);
 
-			// 	if(message != null){
-			// 		if(confirm('Confirmer le refus ? Motif : ' + message)){
-			// 			window.location.href = 'comptable/refuserFiche/' + idVisiteur + '/' + mois;
-			// 		}
-					
-			// 	}
-			// 	else{
-			// 		alert('Aucun message saisi');
-			// 	}
-			// }
+			 	if(commentaire != null){
+			 		if(confirm('Confirmer le refus ? Motif : ' + commentaire)){
+			 			window.location.href = 'refuserFiche/' + idVisiteur + '/' + mois + '/' + commentaire;
+			 		}
+				
+			 	}
+			 	else{
+			 		alert('Aucun motif saisi');
+			 	}
+			 }
 		</script>
     </table>
 

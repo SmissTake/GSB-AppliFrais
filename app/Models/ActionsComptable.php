@@ -84,11 +84,11 @@ class ActionsComptable extends Model {
 	 * @param $idVisiteur : l'id du visiteur 
 	 * @param $mois : le mois de la fiche à signer
 	*/
-	public function refuserFiche($idVisiteur, $mois)
+	public function refuserFiche($idVisiteur, $mois, $commentaire)
 	{	// TODO : s'assurer que les paramètres reçus sont cohérents avec ceux mémorisés en session
 		// TODO : intégrer une fonctionnalité d'impression PDF de la fiche
 
-	    $this->dao->refuserFiche($idVisiteur, $mois);
+	    $this->dao->refuserFiche($idVisiteur, $mois, $commentaire);
 	}
     
 

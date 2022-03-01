@@ -236,11 +236,12 @@ class DataAccess extends Model {
 	 * @param $idVisiteur 
 	 * @param $mois sous la forme aaaamm
 	*/
-	public function refuserFiche($idVisiteur, $mois){
+	public function refuserFiche($idVisiteur, $mois, $commentaire){
 		// met à 'RE' son champs idEtat
 		$laFiche = $this->getLesInfosFicheFrais($idVisiteur,$mois);
 		if($laFiche['idEtat']=='CL'){
 				$this->majEtatFicheFrais($idVisiteur, $mois,'RE');
+				$this->majCommentaire($idVisiteur, $mois, $commentaire);
 		}
 	}
 
@@ -330,7 +331,20 @@ class DataAccess extends Model {
 				where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
 		$this->db->simpleQuery($req);
 	}
-	
+
+	/**
+	 * Modifie le commentaire d'une fiche de frais
+	 * 
+	 * @param $idVisiteur 
+	 * @param $mois sous la forme aaaamm
+	 * @param $commentaire 
+	 */
+	public function majCommentaire($idVisiteur,$mois,$commentaire){
+		$req = "update ficheFrais 
+				set commentaire = '$commentaire'
+				where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+		$this->db->simpleQuery($req);
+	}
 	
 	/**
 	 * Obtient toutes les fiches (sans détail) d'un visiteur donné 
@@ -339,7 +353,7 @@ class DataAccess extends Model {
 	 * @return un tableau avec les fiches de frais
 	*/
 	public function getFiches ($idVisiteur) {
-		$req = "select idVisiteur, mois, montantValide, dateModif, id, libelle
+		$req = "select idVisiteur, mois, montantValide, dateModif, id, libelle, commentaire
 				from  fichefrais inner join Etat on ficheFrais.idEtat = Etat.id 
 				where fichefrais.idvisiteur = '$idVisiteur'
 				order by mois desc";
