@@ -101,4 +101,21 @@ class Comptable extends BaseController {
 
 	}
 
+	/**
+	 * Récupere la vue pour afficher une fiche du visiteur.
+	 * 
+	 * @param $mois
+	 * @return la vue VoirFiche du visiteur avec ses informations.
+	 */
+	public function voirLaFiche($idVisiteur, $mois)
+	{	// TODO : contrôler la validité du paramètre (mois de la fiche à consulter)
+	
+		if (!$this->checkAuth()) return $this->unauthorizedAccess();
+		$data['identite'] = $this->session->get('prenom').' '.$this->session->get('nom');
+		$data['mois'] = $mois;
+		$data['fiche'] = $this->actComptable->getUneFiche($idVisiteur, $mois);
+		
+		return view('v_comptableVoirFiche', $data);
+	}
+
 }
