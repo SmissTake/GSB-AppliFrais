@@ -45,7 +45,7 @@
 					<td class="date">'.$uneFiche['dateModif'].'</td>
 					<td class="action">'.$link.'</td>
 					<td class="action">'.$reLink.'</td>
-					</tr>';
+				</tr>';
 			}
 		?>	  
 		</tbody>
@@ -53,7 +53,7 @@
 			 function confirmPrompt(idVisiteur, mois){
 				var commentaire = prompt('Motif du refus ?',);
 
-			 	if(commentaire != null){
+			 	if(commentaire != "" || commentaire != null){
 			 		if(confirm('Confirmer le refus ? Motif : ' + commentaire)){
 			 			window.location.href = 'refuserFiche/' + idVisiteur + '/' + mois + '/' + commentaire;
 			 		}
