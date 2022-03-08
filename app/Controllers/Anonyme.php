@@ -27,6 +27,8 @@ class Anonyme extends BaseController
 			elseif($_SESSION['profil'] == 2){
 				return redirect()->to(site_url('comptable'));
 			}
+			$data = array('erreur'=>'type de personne inconnu');
+			return view('v_connexion', $data);
 		}
 	}
 
@@ -43,7 +45,6 @@ class Anonyme extends BaseController
 
 		$login = $this->request->getPost('login');
 		$mdp = $this->request->getPost('mdp');
-		
 		$authentif = new Authentif();
 		$authUser = $authentif->authentifier($login, $mdp);
 

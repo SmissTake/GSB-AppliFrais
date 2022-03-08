@@ -27,11 +27,21 @@ class DataAccess extends Model {
 	 * @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
 	*/
 	public function getInfosUtilisateur($login, $mdp){
-		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, visiteur.profil as profil
+		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, visiteur.mdphash as mdphash, visiteur.profil as profil
 				from visiteur 
-				where visiteur.login=? and visiteur.mdp=?";
-		$rs = $this->db->query($req, array ($login, $mdp));
-		$ligne = $rs->getFirstRow('array'); 
+				where visiteur.login=?";
+		$rs = $this->db->query($req, array ($login));
+		$ligne = $rs->getFirstRow('array');
+		
+		$mdpVerif = false;
+
+		if(isset($ligne['mdphash'])){ $mdpVerif = password_verify($mdp, $ligne['mdphash']);}
+
+		if(!$mdpVerif){
+			$ligne = null;
+			return $ligne;
+		}
+
 		return $ligne;
 	}
 
